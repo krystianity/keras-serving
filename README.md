@@ -1,4 +1,4 @@
-# keras-serving (tensorflow serving)
+# keras-serving
 
 keras->tensorflow+grpc+docker=>nodejs :whale::fire:
 

@@ -1,0 +1,12 @@
+version: '2'
+services:
+  node-server:
+    build: ./node_server
+    ports:
+      - "8080:8080"
+    links:
+     - model-server:model-server
+  model-server:
+    build: .
+    ports:
+      - "9000:9000"

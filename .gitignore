@@ -1,0 +1,4 @@
+.idea
+result/*
+export/*
+node_server/node_modules

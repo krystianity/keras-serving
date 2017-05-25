@@ -2,4 +2,4 @@
 pip install keras --user
 pip install tensorflow --user
 pip install h5py --user
-docker build -t tf-model-server model_server
+docker build --no-cache=true -t tf-model-server model_server

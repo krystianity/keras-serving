@@ -23,9 +23,10 @@ docker (docker-compose)
 ```
 ./prepare.sh
 # install python dependencies via pip
-# builds the docker image for tensorflow_serving (takes a while)
+# builds the docker image for tensorflow_serving (takes a while ~ 30 minutes)
 # image size ~ 3.5 GB
 ```
+checkout [build troubleshoot](build.md) if you are having trouble
 
 ## 2. Build, Train and Serialise Keras Model
 
@@ -44,8 +45,10 @@ python export.py
 ## 4. Build & Run Containers via docker-compose
 
 ```
-docker-compose up -d
+docker-compose up --build
+# docker-compose up -d
 # docker-compose stop
+# docker-compose rm
 ```
 
 ## 5. Test API via curl

@@ -2,3 +2,4 @@
 result/*
 export/*
 node_server/node_modules
+.vscode/

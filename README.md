@@ -7,8 +7,17 @@ keras->tensorflow+grpc+docker=>nodejs :whale::fire:
 - building & training of the model works with python2.7 on the workstation
 - exported model is served via grpc in a C++ server using a Docker-Container
 - a nodejs server wraps the grpc api for a simple http POST endpoint
+- also ships an advanced multi-model face (emotion, gender) detection example `/face-recog`
+- and and advanced google bigquery (as dataaset) example `/bigquery`
 
-# Workflow (Unix)
+# Overview
+
+* XOR Setup below
+* [Face-Recog Setup](face-recog/README.md)
+* [BigQuery Setup](bigquery/README.md)
+
+
+# Workflow (Unix - testen on Ubuntu 16.04 64bit)
 
 ## You will need
 
@@ -22,7 +31,7 @@ docker (docker-compose)
 
 ```
 ./prepare.sh
-# install python dependencies via pip
+# installs python dependencies via pip
 # builds the docker image for tensorflow_serving (takes a while ~ 30 minutes)
 # image size ~ 3.5 GB
 ```
@@ -35,7 +44,7 @@ python train.py
 # results will be in (/result)
 ```
 
-## 3. Load and Export Model as Tensorflow Graph
+## 3. Load and export Model as Tensorflow Graph
 
 ```
 python export.py
@@ -45,10 +54,8 @@ python export.py
 ## 4. Build & Run Containers via docker-compose
 
 ```
-docker-compose up --build
-# docker-compose up -d
-# docker-compose stop
-# docker-compose rm
+./start-servers.sh
+# ./stop-servers.sh
 ```
 
 ## 5. Test API via curl

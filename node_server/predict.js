@@ -11,7 +11,7 @@ const client = new TensorflowServing.PredictionService(
     CONSTR, grpc.credentials.createInsecure()
 );
 
-function getMsg(vals){
+function getFloatMatrixMsg(vals, dimX = 1, dimY = 2) {
     return {
         model_spec: { name: "main_model", signature_name: "predict", version: 1 },
         inputs: {
@@ -19,11 +19,12 @@ function getMsg(vals){
                 dtype: "DT_FLOAT",
                 tensor_shape: {
                     dim: [{ //defines dimensions of tensor
-                        size: 1
-                    },
-                    {
-                        size: 2
-                    }]
+                            size: dimX
+                        },
+                        {
+                            size: dimY
+                        }
+                    ]
                 },
                 float_val: vals
             }
@@ -31,10 +32,27 @@ function getMsg(vals){
     };
 }
 
-function predict(matrix, callback){
-    client.predict(getMsg(matrix), (error, response) => {
+function getBufferMsg(bufferArray) {
+    return {
+        model_spec: { name: "main_model", signature_name: "predict", version: 1 },
+        inputs: {
+            inputs: {
+                dtype: "DT_STRING",
+                tensor_shape: {
+                    dim: {
+                        size: bufferArray.length
+                    }
+                },
+                string_val: bufferArray
+            }
+        }
+    };
+}
 
-        if(error){
+function predict(matrix, callback) {
+    client.predict(getFloatMatrixMsg(matrix), (error, response) => {
+
+        if (error) {
             return callback(error);
         }
 
@@ -42,4 +60,18 @@ function predict(matrix, callback){
     });
 }
 
-module.exports = predict;
+function predictFace(matrix, callback) {
+    client.predict(getBufferMsg(matrix), (error, response) => {
+
+        if (error) {
+            return callback(error);
+        }
+
+        callback(null, response.outputs.outputs.float_val);
+    });
+}
+
+module.exports = {
+    predict,
+    predictFace
+};

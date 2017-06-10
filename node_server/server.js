@@ -2,7 +2,7 @@
 
 /*
     please note:
-    the code of this server has not been optimized
+    the code of this server has not been optimized,
     you might want to adjust a few things before
     running this in production.
 */

@@ -13,8 +13,8 @@ keras->tensorflow+grpc+docker=>nodejs :whale::fire:
 # Overview
 
 * XOR Setup below
-* [Face-Recog Setup](face-recog/README.md)
-* [BigQuery Setup](bigquery/README.md)
+* [Face-Recog Setup](face-recog/)
+* [BigQuery Setup](bigquery/)
 
 
 # Workflow (Unix - testen on Ubuntu 16.04 64bit)

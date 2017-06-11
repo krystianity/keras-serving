@@ -44,8 +44,7 @@ app.post("/predict-face", (req, res) => {
         return res.status(400).json({ error: "request body missing inputs array field." });
     }
 
-    const inputs = req.body.inputs.map(input => new Buffer(input, "binary"));
-
+    const inputs = req.body.inputs;
     predictFace(inputs, (error, outputs) => {
 
         if (error) {

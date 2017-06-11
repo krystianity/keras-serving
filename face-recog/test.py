@@ -1,3 +1,5 @@
+# this script should be executed from its parent folder e.g. python ./test.py
+
 import cv2
 from keras.models import load_model
 import numpy as np
@@ -57,6 +59,8 @@ for (x,y,w,h) in faces:
     gray_face = preprocess_input(gray_face)
     gray_face = np.expand_dims(gray_face, 0)
     gray_face = np.expand_dims(gray_face, -1)
+
+    #print(gray_face)
 
     emotion_label_arg = np.argmax(emotion_classifier.predict(gray_face))
     emotion = emotion_labels[emotion_label_arg]

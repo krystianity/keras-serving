@@ -5,4 +5,4 @@ node_server/node_modules
 .vscode/
 predicted_test_image.png
 *.pyc
-face-recog/node_modules
+face-recog/client/node_modules

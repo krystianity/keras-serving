@@ -27,6 +27,15 @@ function getFloatMatrixMsg(vals, dimX = 1, dimY = 2) {
                     ]
                 },
                 float_val: vals
+            },
+            batch_normalization: {
+                dtype: "DT_BOOL",
+                bool_val: false,
+                tensor_shape: {
+                    dim: {
+                        size: 1
+                    }
+                }
             }
         }
     };
@@ -61,7 +70,7 @@ function predict(matrix, callback) {
 }
 
 function predictFace(matrix, callback) {
-    client.predict(getBufferMsg(matrix), (error, response) => {
+    client.predict(getFloatMatrixMsg(matrix, 48, 48), (error, response) => {
 
         if (error) {
             return callback(error);

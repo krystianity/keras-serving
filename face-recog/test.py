@@ -60,7 +60,10 @@ for (x,y,w,h) in faces:
     gray_face = np.expand_dims(gray_face, 0)
     gray_face = np.expand_dims(gray_face, -1)
 
-    #print(gray_face)
+    #print(len(gray_face))
+    #print(len(gray_face[0]))
+    #print(len(gray_face[0][0]))
+    #print(len(gray_face[0][0][0]))
 
     emotion_label_arg = np.argmax(emotion_classifier.predict(gray_face))
     emotion = emotion_labels[emotion_label_arg]

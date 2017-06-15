@@ -9,8 +9,10 @@
 
 ## 1. Install Requirements
 
+NOTICE: call these from the project root, not from inside the ./face-recog directory
+
 ```
-./prepare.sh # ./face-recog/prepare.sh
+./face-recog/prepare.sh
 # installs python dependencies via pip
 # also make sure you already have built the docker-image for the XOR project /README.md#1
 ```
@@ -25,16 +27,27 @@ python face-recog/export.py # make sure to run from project root folder
 ## 3. Build & Run Containers via docker-compose
 
 ```
-./start-servers.sh
-# ./stop-servers.sh
+./start-dual-servers.sh
+# ./stop-dual-servers.sh
 ```
 
 ## 4. Test API via client
 
-* the client loads an image from /face-recog/images/cutouts/
+* the client loads an image from whatever path (relative/absolute) you pass as first argument
 
 ```
-cd /face-recog/client
+cd ./face-recog/client
 npm install
-npm start # make sure to start the servers first
+npm start ./../images/cutouts/4.png
+# make sure to start the servers first
+```
+
+## 5. Generate and Test on your own images
+
+```
+cd ./face-recog/
+python face-exporter.py ./images/chris_1.jpg 
+# makes a gray cutout in 48x48 pixel of a face in the image
+cd client
+npm start ./../images/face-exports/gray_0.png
 ```

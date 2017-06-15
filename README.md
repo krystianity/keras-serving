@@ -62,7 +62,7 @@ python export.py
 
 ```
 curl -X POST \
-  http://localhost:8080/predict \
+  http://localhost:8080/predict-xor \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -d '{"inputs": [0,1]}'

@@ -1,8 +1,11 @@
 .idea
+.vscode/
 result/*
 export/*
-node_server/node_modules
-.vscode/
-predicted_test_image.png
+face-recog/images/face-exports/*
 *.pyc
+node_server/node_modules
 face-recog/client/node_modules
+predicted_test_image.png
+chris_1.jpg
+chris_2.jpg

@@ -2,64 +2,110 @@
 
 const grpc = require("grpc");
 
-const CONSTR = "model-server:9000";
-const PROTO_PATH = __dirname + "/protos/prediction_service.proto";
+const SERVER_PORT = 9000;
+const XOR_CONSTR = `model-server:${SERVER_PORT}`;
+const EMOTION_CONSTR = `emotion-server:${SERVER_PORT}`;
+const GENDER_CONSTR = `gender-server:${SERVER_PORT}`;
 
+const PROTO_PATH = __dirname + "/protos/prediction_service.proto";
 const TensorflowServing = grpc.load(PROTO_PATH).tensorflow.serving;
 
-const client = new TensorflowServing.PredictionService(
-    CONSTR, grpc.credentials.createInsecure()
+/*
+    this should actually be split in a 
+    generic client/predict class
+*/
+
+const xorClient = new TensorflowServing.PredictionService(
+    XOR_CONSTR, grpc.credentials.createInsecure()
 );
 
-function getFloatMatrixMsg(vals, dimX = 1, dimY = 2) {
+const emotionClient = new TensorflowServing.PredictionService(
+    EMOTION_CONSTR, grpc.credentials.createInsecure()
+);
+
+const genderClient = new TensorflowServing.PredictionService(
+    GENDER_CONSTR, grpc.credentials.createInsecure()
+);
+
+function getXORModelMsg(vals) {
     return {
         model_spec: { name: "main_model", signature_name: "predict", version: 1 },
         inputs: {
             inputs: {
                 dtype: "DT_FLOAT",
                 tensor_shape: {
-                    dim: [{ //defines dimensions of tensor
-                            size: dimX
+                    dim: [{
+                            size: 1
                         },
                         {
-                            size: dimY
+                            size: 2
                         }
                     ]
                 },
                 float_val: vals
-            },
-            batch_normalization: {
-                dtype: "DT_BOOL",
-                bool_val: false,
-                tensor_shape: {
-                    dim: {
-                        size: 1
-                    }
-                }
             }
         }
     };
 }
 
-function getBufferMsg(bufferArray) {
+function getEmotionModelMsg(vals) {
     return {
-        model_spec: { name: "main_model", signature_name: "predict", version: 1 },
+        model_spec: { name: "emotion_model", signature_name: "predict", version: 1 },
         inputs: {
             inputs: {
-                dtype: "DT_STRING",
+                dtype: "DT_FLOAT",
                 tensor_shape: {
-                    dim: {
-                        size: bufferArray.length
-                    }
+                    dim: [{
+                            size: 1
+                        },
+                        {
+                            size: 48
+                        },
+                        {
+                            size: 48
+                        },
+                        {
+                            size: 1
+                        }
+                    ],
+                    unknown_rank: false
                 },
-                string_val: bufferArray
+                float_val: vals
             }
         }
     };
 }
 
-function predict(matrix, callback) {
-    client.predict(getFloatMatrixMsg(matrix), (error, response) => {
+function getGenderModelMsg(vals) {
+    return {
+        model_spec: { name: "gender_model", signature_name: "predict", version: 1 },
+        inputs: {
+            inputs: {
+                dtype: "DT_FLOAT",
+                tensor_shape: {
+                    dim: [{
+                            size: 1
+                        },
+                        {
+                            size: 48
+                        },
+                        {
+                            size: 48
+                        },
+                        {
+                            size: 3
+                        }
+                    ],
+                    unknown_rank: false
+                },
+                float_val: vals
+            }
+        }
+    };
+}
+
+function predictXOR(array, callback) {
+    xorClient.predict(getXORModelMsg(array), (error, response) => {
 
         if (error) {
             return callback(error);
@@ -69,8 +115,19 @@ function predict(matrix, callback) {
     });
 }
 
-function predictFace(matrix, callback) {
-    client.predict(getFloatMatrixMsg(matrix, 48, 48), (error, response) => {
+function predictEmotion(array, callback) {
+    emotionClient.predict(getEmotionModelMsg(array), (error, response) => {
+
+        if (error) {
+            return callback(error);
+        }
+
+        callback(null, response.outputs.outputs.float_val);
+    });
+}
+
+function predictGender(array, callback) {
+    genderClient.predict(getGenderModelMsg(array), (error, response) => {
 
         if (error) {
             return callback(error);
@@ -81,6 +138,7 @@ function predictFace(matrix, callback) {
 }
 
 module.exports = {
-    predict,
-    predictFace
+    predictXOR,
+    predictEmotion,
+    predictGender
 };

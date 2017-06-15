@@ -1,0 +1,17 @@
+version: "3"
+services:
+  node-server:
+    build: ./node_server
+    ports:
+      - "8080:8080"
+    links:
+     - emotion-server:emotion-server
+     - gender-server:gender-server
+  emotion-server:
+    build: 
+      dockerfile: ./face-recog/Dockerfile-emotion
+      context: ./
+  gender-server:
+    build: 
+      dockerfile: ./face-recog/Dockerfile-gender
+      context: ./

@@ -117,7 +117,7 @@ app.post("/predict-gender", (req, res) => {
     });
 });
 
-app.post("/predict-emotion--and-gender", (req, res) => {
+app.post("/predict-emotion-and-gender", (req, res) => {
 
     if (!req.body || !req.body.inputs || !Array.isArray(req.body.inputs)) {
         return res.status(400).json({ error: "request body missing inputs array field." });
@@ -130,9 +130,11 @@ app.post("/predict-emotion--and-gender", (req, res) => {
             predictGender(inputs, (error, outputs) => {
 
                 if (error) {
+                    console.log("gender prediction failed.");
                     return callback(error);
                 }
 
+                console.log("d-gender prediction successfull.");
                 callback(null, {
                     gender: GENDER_MAPPER[maxArgIndex(outputs)],
                     outputs
@@ -143,9 +145,11 @@ app.post("/predict-emotion--and-gender", (req, res) => {
             predictEmotion(inputs, (error, outputs) => {
 
                 if (error) {
+                    console.log("emotion prediction failed.");
                     return callback(error);
                 }
 
+                console.log("d-emotion prediction successfull.");
                 callback(null, {
                     emotion: EMOTION_MAPPER[maxArgIndex(outputs)],
                     outputs
@@ -162,7 +166,7 @@ app.post("/predict-emotion--and-gender", (req, res) => {
             return res.status(500).json({ error });
         }
 
-        console.log("gender-and-emotion-prediction successfull.");
+        console.log("dual-prediction successfull.");
         res.status(200).json({ results });
     });
 });

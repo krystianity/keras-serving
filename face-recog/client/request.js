@@ -17,10 +17,11 @@ function loadImageAsArray(filePath) {
     for (let i = 0; i < buffer.length; i = i + 4) {
         flattened.push(prepareInputs(buffer[i]));
     }
+    console.log(`image flat size: ${flattened.length/48}.`);
     return flattened;
 }
 
-function makeRequest(imageData, endpoint = "/predict-emotion--and-gender") {
+function makeRequest(imageData, endpoint = "/predict-emotion-and-gender") {
     return new Promise((resolve, reject) => {
 
         const options = {
@@ -34,6 +35,7 @@ function makeRequest(imageData, endpoint = "/predict-emotion--and-gender") {
             })
         };
 
+        console.log(`${options.method} to ${options.url} with ${options.body.length} body length.`);
         request(options, (error, response, body) => {
 
             if (error) {

@@ -105,7 +105,7 @@ function getGenderModelMsg(vals) {
 }
 
 function predictXOR(array, callback) {
-    xorClient.predict(getXORModelMsg(array), (error, response) => {
+    xorClient.predict(logMsg(getXORModelMsg(logInput(array))), (error, response) => {
 
         if (error) {
             return callback(error);
@@ -116,7 +116,7 @@ function predictXOR(array, callback) {
 }
 
 function predictEmotion(array, callback) {
-    emotionClient.predict(getEmotionModelMsg(array), (error, response) => {
+    emotionClient.predict(logMsg(getEmotionModelMsg(logInput(array))), (error, response) => {
 
         if (error) {
             return callback(error);
@@ -127,7 +127,7 @@ function predictEmotion(array, callback) {
 }
 
 function predictGender(array, callback) {
-    genderClient.predict(getGenderModelMsg(array), (error, response) => {
+    genderClient.predict(logMsg(getGenderModelMsg(logInput(array))), (error, response) => {
 
         if (error) {
             return callback(error);
@@ -135,6 +135,22 @@ function predictGender(array, callback) {
 
         callback(null, response.outputs.outputs.float_val);
     });
+}
+
+function logInput(array = []) {
+    console.log(`Input array size: ${array.length}, example value: ${array[0]}.`);
+    return array;
+}
+
+function logMsg(msg) {
+
+    try {
+        console.log(`Tensor Dim: ${JSON.stringify(msg.inputs.inputs.tensor_shape.dim)}.`);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return msg;
 }
 
 module.exports = {

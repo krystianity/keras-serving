@@ -57,8 +57,8 @@ print(gender_model.input)
 print(gender_model.output)
 print("- - -")
 
-signature_emotion = predict_signature_def(inputs={"inputs": emotion_model.input}, outputs={"output": emotion_model.output})
-signature_gender = predict_signature_def(inputs={"image_array_input": gender_model.input}, outputs={"output": gender_model.output})
+signature_emotion = predict_signature_def(inputs={"inputs": emotion_model.input}, outputs={"outputs": emotion_model.output})
+signature_gender = predict_signature_def(inputs={"inputs": gender_model.input}, outputs={"outputs": gender_model.output})
 
 with K.get_session() as sess:
     builder_emotion.add_meta_graph_and_variables(sess=sess, tags=[tag_constants.SERVING], signature_def_map={"predict": signature_emotion})

@@ -62,7 +62,7 @@ print(model.input)
 print(model.output)
 
 signature = predict_signature_def(inputs={"inputs": model.input},
-                                  outputs={"output": model.output})
+                                  outputs={"outputs": model.output})
 
 with K.get_session() as sess:
     builder.add_meta_graph_and_variables(sess=sess,

@@ -111,6 +111,7 @@ function predictXOR(array, callback) {
             return callback(error);
         }
 
+        logOutput(response);
         callback(null, response.outputs.outputs.float_val);
     });
 }
@@ -122,6 +123,7 @@ function predictEmotion(array, callback) {
             return callback(error);
         }
 
+        logOutput(response);
         callback(null, response.outputs.outputs.float_val);
     });
 }
@@ -133,6 +135,7 @@ function predictGender(array, callback) {
             return callback(error);
         }
 
+        logOutput(response);
         callback(null, response.outputs.outputs.float_val);
     });
 }
@@ -143,7 +146,6 @@ function logInput(array = []) {
 }
 
 function logMsg(msg) {
-
     try {
         console.log(`Tensor Dim: ${JSON.stringify(msg.inputs.inputs.tensor_shape.dim)}.`);
     } catch (error) {
@@ -151,6 +153,10 @@ function logMsg(msg) {
     }
 
     return msg;
+}
+
+function logOutput(response) {
+    console.log(`Tensor-Response: ${JSON.stringify(response.outputs)}`);
 }
 
 module.exports = {

@@ -37,8 +37,8 @@ python face-recog/export.py # make sure to run from project root folder
 
 ```
 cd ./face-recog/client
-npm install
-npm start ./../images/cutouts/4.png
+yarn (npm install -g yarn, in case you do not have it installed already)
+yarn start ./../images/cutouts/4.png
 # make sure to start the servers first
 ```
 
@@ -49,5 +49,5 @@ cd ./face-recog/
 python face-exporter.py ./images/chris_1.jpg 
 # makes a gray cutout in 48x48 pixel of a face in the image
 cd client
-npm start ./../images/face-exports/gray_0.png
+yarn start ./../images/face-exports/gray_0.png
 ```

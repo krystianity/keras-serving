@@ -11,6 +11,6 @@
     "license": "MIT",
     "dependencies": {
         "pngjs2": "^2.0.0",
-        "request": "^2.81.0"
+        "request": "^2.88.0"
     }
 }

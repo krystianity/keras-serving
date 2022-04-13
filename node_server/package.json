@@ -10,7 +10,7 @@
   "author": "Chris Fröhlingsdorf <chris@5cf.de>",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.2.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "grpc": "^1.19.0"
